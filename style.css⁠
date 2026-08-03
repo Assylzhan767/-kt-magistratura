@@ -1,0 +1,83 @@
+/* Основные цветовые переменные под стиль Coursera/Udemy */
+:root {
+    --bs-primary: #1e40af;
+    --bs-primary-hover: #1d4ed8;
+    --bg-light-blue: #f0f7ff;
+    --text-dark: #1e293b;
+}
+
+body {
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    color: var(--text-dark);
+    background-color: #f8fafc !important;
+}
+
+/* Карточки и анимации */
+.card-hover {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card-hover:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.08) !important;
+}
+
+/* Стилизация вариантов ответов */
+.option-btn {
+    text-align: left;
+    white-space: normal;
+    padding: 1rem 1.25rem;
+    font-size: 1.05rem;
+    border: 2px solid #e2e8f0;
+    border-radius: 0.75rem;
+    background-color: #ffffff;
+    color: var(--text-dark);
+    transition: all 0.15s ease-in-out;
+}
+
+.option-btn:hover {
+    border-color: #93c5fd;
+    background-color: var(--bg-light-blue);
+}
+
+.option-btn.selected {
+    border-color: #2563eb;
+    background-color: #dbeafe;
+    font-weight: 600;
+}
+
+.option-btn.correct-rev {
+    border-color: #16a34a !important;
+    background-color: #dcfce7 !important;
+    color: #14532d;
+}
+
+.option-btn.wrong-rev {
+    border-color: #dc2626 !important;
+    background-color: #fee2e2 !important;
+    color: #7f1d1d;
+}
+
+/* Блок псевдокода и теории */
+pre code {
+    display: block;
+    background: #0f172a;
+    color: #f8fafc;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    font-family: "Fira Code", Consolas, Monaco, monospace;
+    font-size: 0.9rem;
+    overflow-x: auto;
+}
+
+/* Стилизация списка тем */
+.list-group-item.active {
+    background-color: var(--bs-primary);
+    border-color: var(--bs-primary);
+    font-weight: 600;
+}
+
+.navbar-sticky-offset {
+    top: 68px;
+    z-index: 1020;
+}
