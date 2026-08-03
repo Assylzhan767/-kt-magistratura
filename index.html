@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Подготовка к КТ — Магистратура IT (v6 Final)</title>
+  <meta name="theme-color" content="#1d4ed8" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark navbar-glass sticky-top">
+    <div class="container">
+      <button id="btn-back" class="btn btn-outline-light btn-back d-none" type="button"></button>
+      <a class="navbar-brand d-flex align-items-center gap-2 fw-semibold ms-lg-0 ms-2" href="#" onclick="app.showView('home'); return false;">
+        <i class="bi bi-mortarboard-fill fs-4"></i>
+        <span>КТ Магистратура IT · v6 Final</span>
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#topNav" aria-controls="topNav" aria-expanded="false">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="topNav">
+        <ul class="navbar-nav ms-auto mb-2 mb-lg-0 gap-lg-1">
+          <li class="nav-item"><a class="nav-link active" data-nav="home" href="#" onclick="app.showView('home'); return false;"><i class="bi bi-house-door me-1"></i>Главная</a></li>
+          <li class="nav-item"><a class="nav-link" data-nav="learn" href="#" onclick="app.showView('learn'); return false;"><i class="bi bi-journal-text me-1"></i>Теория</a></li>
+          <li class="nav-item"><a class="nav-link" data-nav="bank" href="#" onclick="app.showView('bank'); return false;"><i class="bi bi-ui-checks-grid me-1"></i>Банк</a></li>
+          <li class="nav-item"><a class="nav-link" data-nav="coverage" href="#" onclick="app.showView('coverage'); return false;"><i class="bi bi-patch-check me-1"></i>Покрытие</a></li>
+          <li class="nav-item"><a class="nav-link" data-nav="errors" href="#" onclick="app.showView('errors'); return false;"><i class="bi bi-exclamation-triangle me-1"></i>Ошибки <span class="badge text-bg-danger ms-1" id="errors-count">0</span></a></li>
+          <li class="nav-item"><a class="nav-link" data-nav="stats" href="#" onclick="app.showView('stats'); return false;"><i class="bi bi-bar-chart me-1"></i>Статистика</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <main class="container my-4 pb-5">
+    <section id="view-home" class="app-view">
+      <div class="hero card-soft p-4 p-md-5 mb-4">
+        <div class="row align-items-center g-4">
+          <div class="col-lg-7">
+            <div class="eyebrow mb-2"><i class="bi bi-stars me-1"></i> Полная подготовка по двум спецификациям · Final v6</div>
+            <h1 class="display-6 fw-bold mb-3">Сайт для подготовки к КТ в магистратуру</h1>
+            <p class="lead text-secondary mb-4">
+              Теория, банк вопросов, режим экзамена, работа над ошибками и отслеживание прогресса.
+              База построена по темам из официальных спецификаций для алгоритмов и баз данных.
+            </p>
+            <div class="d-flex flex-wrap gap-2">
+              <button class="btn btn-primary btn-lg" data-start-mode="Algorithms"><i class="bi bi-play-circle me-1"></i>Экзамен: Алгоритмы</button>
+              <button class="btn btn-outline-primary btn-lg" data-start-mode="Databases"><i class="bi bi-database me-1"></i>Экзамен: БД</button>
+              <button class="btn btn-dark btn-lg" data-start-mode="all"><i class="bi bi-lightning-charge me-1"></i>Полный тест</button>
+            </div>
+          </div>
+          <div class="col-lg-5">
+            <div class="stats-grid">
+              <div class="stat-card">
+                <div class="stat-label">Вопросов</div>
+                <div class="stat-value" id="home-total-questions">0</div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-label">Тем</div>
+                <div class="stat-value" id="home-topic-count">0</div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-label">Покрытие</div>
+                <div class="stat-value" id="home-coverage">0%</div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-label">Тестов</div>
+                <div class="stat-value" id="home-history-count">0</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row g-3 mb-4">
+        <div class="col-md-4"><div class="mini-card"><i class="bi bi-journal-check"></i><div><strong>Теория по темам</strong><div class="text-secondary small">Открывай блоки и проходи практику.</div></div></div></div>
+        <div class="col-md-4"><div class="mini-card"><i class="bi bi-shuffle"></i><div><strong>Без повторов</strong><div class="text-secondary small">Вопросы не повторяются, пока банк не закончится.</div></div></div></div>
+        <div class="col-md-4"><div class="mini-card"><i class="bi bi-clock-history"></i><div><strong>Режим экзамена</strong><div class="text-secondary small">Таймер, статистика и разбор ошибок.</div></div></div></div>
+      </div>
+
+      <div class="card-soft p-4">
+        <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
+          <h3 class="mb-0 fw-bold">Стартовые режимы</h3>
+          <button class="btn btn-outline-secondary btn-sm" id="btn-reset-progress" type="button"><i class="bi bi-arrow-counterclockwise me-1"></i>Сбросить прогресс</button>
+        </div>
+        <div class="row g-3">
+          <div class="col-md-4">
+            <div class="mode-card">
+              <h5 class="fw-bold">Алгоритмы</h5>
+              <p class="text-secondary small mb-3">30 вопросов, 60 минут.</p>
+              <button class="btn btn-primary w-100" data-start-mode="Algorithms">Начать</button>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="mode-card">
+              <h5 class="fw-bold">Базы данных</h5>
+              <p class="text-secondary small mb-3">20 вопросов, 50 минут.</p>
+              <button class="btn btn-primary w-100" data-start-mode="Databases">Начать</button>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="mode-card">
+              <h5 class="fw-bold">Смешанный тест</h5>
+              <p class="text-secondary small mb-3">50 вопросов, 100 минут.</p>
+              <button class="btn btn-dark w-100" data-start-mode="all">Начать</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="view-learn" class="app-view d-none">
+      <div class="section-head mb-3">
+        <div>
+          <div class="eyebrow">Теория</div>
+          <h2 class="fw-bold mb-1">Разделы подготовки</h2>
+          <p class="text-secondary mb-0">Выбирай тему, читай краткий конспект и запускай практику.</p>
+        </div>
+        <div class="d-flex gap-2 align-items-center flex-wrap">
+          <input class="form-control" id="search-learn" type="search" placeholder="Поиск по темам..." />
+          <button class="btn btn-outline-primary" id="btn-topic-practice" type="button"><i class="bi bi-play-fill me-1"></i>Практика по теме</button>
+        </div>
+      </div>
+
+      <div class="row g-4">
+        <div class="col-lg-4">
+          <div class="card-soft p-3 mb-3">
+            <label class="form-label fw-semibold">Тема</label>
+            <select id="learn-topic-list" class="form-select"></select>
+            <div class="small text-secondary mt-2" id="learn-count">0 вопросов</div>
+          </div>
+
+          <div class="topic-group mb-4">
+            <h5 class="fw-bold mb-3">Алгоритмы и структуры данных</h5>
+            <div id="learn-alg-list" class="d-grid gap-3"></div>
+          </div>
+
+          <div class="topic-group">
+            <h5 class="fw-bold mb-3">Базы данных</h5>
+            <div id="learn-db-list" class="d-grid gap-3"></div>
+          </div>
+        </div>
+
+        <div class="col-lg-8">
+          <div class="card-soft p-4 h-100">
+            <div class="d-flex justify-content-between align-items-start gap-3 flex-wrap mb-3">
+              <div>
+                <div class="eyebrow">Текущая тема</div>
+                <h3 class="fw-bold mb-1" id="learn-title"></h3>
+              </div>
+            </div>
+            <div id="learn-content" class="theory-content"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="view-bank" class="app-view d-none">
+      <div class="section-head mb-3">
+        <div>
+          <div class="eyebrow">Банк вопросов</div>
+          <h2 class="fw-bold mb-1">Все вопросы</h2>
+          <p class="text-secondary mb-0">Фильтруй по предмету, теме и сложности.</p>
+        </div>
+        <div class="badge badge-soft">Найдено: <span id="bank-count">0</span></div>
+      </div>
+
+      <div class="card-soft p-3 mb-3">
+        <div class="row g-2 align-items-center">
+          <div class="col-lg-4"><input class="form-control" id="search-bank" type="search" placeholder="Поиск по вопросу, теме или объяснению" /></div>
+          <div class="col-lg-2"><select id="filter-subject" class="form-select"><option value="">Все предметы</option><option value="Algorithms">Алгоритмы</option><option value="Databases">БД</option></select></div>
+          <div class="col-lg-3"><select id="filter-topic" class="form-select"><option value="">Все темы</option></select></div>
+          <div class="col-lg-2"><select id="filter-difficulty" class="form-select"><option value="">Все уровни</option><option value="Easy">Easy</option><option value="Medium">Medium</option><option value="Hard">Hard</option></select></div>
+          <div class="col-lg-1 d-grid"><button class="btn btn-outline-secondary" type="button" onclick="document.getElementById('search-bank').value='';document.getElementById('filter-subject').value='';document.getElementById('filter-topic').value='';document.getElementById('filter-difficulty').value='';app.renderQuestionBank();"><i class="bi bi-x-lg"></i></button></div>
+        </div>
+      </div>
+
+      <div id="bank-list" class="d-grid gap-3"></div>
+    </section>
+
+    <section id="view-coverage" class="app-view d-none">
+      <div class="section-head mb-3">
+        <div>
+          <div class="eyebrow">Покрытие программы</div>
+          <h2 class="fw-bold mb-1">Что уже закрыто</h2>
+          <p class="text-secondary mb-0">Список тем из спецификаций и сколько вопросов есть по каждой.</p>
+        </div>
+        <div class="coverage-summary">
+          <div><span class="text-secondary small">Темы</span><div class="fw-bold" id="coverage-total">0/26</div></div>
+          <div><span class="text-secondary small">Покрытие</span><div class="fw-bold" id="coverage-percent">0%</div></div>
+          <div><span class="text-secondary small">Вопросы</span><div class="fw-bold" id="coverage-question-count">0</div></div>
+        </div>
+      </div>
+      <div id="coverage-list" class="d-grid gap-4"></div>
+    </section>
+
+    <section id="view-errors" class="app-view d-none">
+      <div class="section-head mb-3">
+        <div>
+          <div class="eyebrow">Работа над ошибками</div>
+          <h2 class="fw-bold mb-1">Ошибки</h2>
+          <p class="text-secondary mb-0">Здесь собираются вопросы, на которые был неверный ответ.</p>
+        </div>
+        <div class="d-flex gap-2 flex-wrap">
+          <button class="btn btn-primary" id="btn-start-error-quiz" type="button"><i class="bi bi-play-fill me-1"></i>Пройти ошибки</button>
+          <button class="btn btn-outline-secondary" id="btn-clear-errors" type="button"><i class="bi bi-trash me-1"></i>Очистить</button>
+        </div>
+      </div>
+      <div id="errors-list" class="d-grid gap-3"></div>
+    </section>
+
+    <section id="view-stats" class="app-view d-none">
+      <div class="section-head mb-3">
+        <div>
+          <div class="eyebrow">Статистика</div>
+          <h2 class="fw-bold mb-1">Прогресс и история</h2>
+          <p class="text-secondary mb-0">Сводка по тестам, лучшим результатам и частоте ошибок.</p>
+        </div>
+        <div class="d-flex gap-2 flex-wrap">
+          <button class="btn btn-outline-secondary" id="btn-clear-history" type="button"><i class="bi bi-trash me-1"></i>Очистить историю</button>
+        </div>
+      </div>
+
+      <div class="row g-3 mb-3">
+        <div class="col-md-3"><div class="metric-card"><div class="metric-label">Тестов</div><div class="metric-value" id="stat-total-tests">0</div></div></div>
+        <div class="col-md-3"><div class="metric-card"><div class="metric-label">Лучший результат</div><div class="metric-value" id="stat-best-score">—</div></div></div>
+        <div class="col-md-3"><div class="metric-card"><div class="metric-label">Средний результат</div><div class="metric-value" id="stat-avg-score">—</div></div></div>
+        <div class="col-md-3"><div class="metric-card"><div class="metric-label">Ошибок</div><div class="metric-value" id="stat-errors-count">0</div></div></div>
+      </div>
+
+      <div class="card-soft p-3">
+        <div class="table-responsive">
+          <table class="table align-middle mb-0">
+            <thead>
+              <tr>
+                <th>Дата</th>
+                <th>Режим</th>
+                <th>Баллы</th>
+                <th>Верно</th>
+                <th>Результат</th>
+                <th>Время</th>
+              </tr>
+            </thead>
+            <tbody id="history-body"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section id="view-exam" class="app-view d-none">
+      <div class="exam-top card-soft p-3 p-md-4 mb-3">
+        <div class="d-flex justify-content-between align-items-start gap-3 flex-wrap">
+          <div>
+            <div class="eyebrow">Режим экзамена</div>
+            <h2 class="fw-bold mb-1" id="exam-title"></h2>
+            <div class="text-secondary" id="exam-topic-badge"></div>
+          </div>
+          <div class="exam-meta">
+            <div class="text-secondary small">Время</div>
+            <div class="exam-timer" id="exam-timer">00:00</div>
+          </div>
+        </div>
+        <div class="progress mt-3" style="height: 10px;">
+          <div id="exam-progress-bar" class="progress-bar"></div>
+        </div>
+        <div class="d-flex justify-content-between align-items-center mt-2">
+          <div class="text-secondary small" id="exam-progress-text">Вопрос 1 из 1</div>
+          <div class="text-secondary small" id="question-multiple">Можно выбрать несколько ответов</div>
+        </div>
+      </div>
+
+      <div class="card-soft p-4">
+        <div class="d-flex justify-content-between align-items-start gap-3 flex-wrap mb-3">
+          <div>
+            <span class="badge text-bg-secondary" id="question-difficulty">Medium</span>
+          </div>
+          <button class="btn btn-outline-warning btn-sm" id="btn-bookmark" type="button"><i class="bi bi-bookmark me-1"></i>Пометить</button>
+        </div>
+        <h4 class="fw-bold mb-4" id="question-text"></h4>
+        <div id="options-container" class="d-grid gap-2 mb-4"></div>
+        <div class="d-flex justify-content-between gap-2 flex-wrap">
+          <button class="btn btn-outline-secondary" id="btn-prev-q" type="button"><i class="bi bi-chevron-left me-1"></i>Назад</button>
+          <div class="d-flex gap-2">
+            <button class="btn btn-outline-danger" id="btn-finish-exam" type="button">Завершить</button>
+            <button class="btn btn-primary" id="btn-next-q" type="button">Далее</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="view-results" class="app-view d-none">
+      <div class="card-soft p-4 mb-3">
+        <div class="d-flex justify-content-between align-items-start gap-3 flex-wrap">
+          <div>
+            <div class="eyebrow">Результат</div>
+            <h2 class="fw-bold mb-1" id="results-exam-title"></h2>
+            <p class="text-secondary mb-0">Разбор ответов и ошибок после прохождения.</p>
+          </div>
+          <button class="btn btn-outline-primary" id="btn-review-mistakes" type="button"><i class="bi bi-arrow-repeat me-1"></i>Перейти к ошибкам</button>
+        </div>
+        <div class="row g-3 mt-3">
+          <div class="col-md-4"><div class="metric-card"><div class="metric-label">Баллы</div><div class="metric-value" id="result-points">0/0</div></div></div>
+          <div class="col-md-4"><div class="metric-card"><div class="metric-label">Процент</div><div class="metric-value" id="result-percent">0%</div></div></div>
+          <div class="col-md-4"><div class="metric-card"><div class="metric-label">Точно верно</div><div class="metric-value" id="result-exact">0/0</div></div></div>
+        </div>
+      </div>
+      <div id="results-breakdown" class="d-grid gap-3"></div>
+    </section>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
